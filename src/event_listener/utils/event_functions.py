@@ -3,7 +3,7 @@ from typing import Callable, Tuple, Any, List, get_origin, get_args
 import inspect
 from inspect import Parameter, _empty
 
-def _safe_invoke(self, listener: Callable, *args, **kwargs) -> None:
+def _safe_invoke(listener: Callable, *args, **kwargs) -> None:
     """
     Safely invokes a listener callback with the provided arguments, handling any exceptions that occur.
 
