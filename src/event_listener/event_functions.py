@@ -22,5 +22,6 @@ def _is_signature_match(base_signature: List[Parameter], callback_signature: Lis
             return False
     return True
 
-for v in _get_signature(_is_signature_match):
-    print(v.default)
+if __name__ == "__main__":
+    for v in _get_signature(_is_signature_match):
+        print(v.default)
