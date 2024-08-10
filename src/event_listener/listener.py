@@ -32,9 +32,17 @@ class EventListener:
         if callback not in self.__listeners:
             self.__listeners.append(callback)
 
+    def subscribe_many(self, *callbacks: Callable) -> None:
+        for callback in callbacks:
+            self.subscribe(callback)
+
     def unsubscribe(self, callback: Callable) -> None:
         if callback in self.__listeners: 
             self.__listeners.remove(callback)
+
+    def unsubscribe_many(self, *callbacks: Callable) -> None:
+        for callback in callbacks:
+            self.unsubscribe(callback)
 
     def clear(self) -> None:
         self.__listeners.clear()
