@@ -4,13 +4,13 @@ from inspect import Parameter
 
 from .event_functions import (
     _safe_invoke, 
-    _is_signature_match, 
+    _is_signature_match_strict, 
     _get_signature)
 
 class EventListener:
     def __init__(self, 
                 name: str = None, 
-                signature: Union[List[Parameter], Callable, None]= None) -> None:
+                signature: Union[List[Parameter], Callable, None] = None) -> None:
         
         self.__listeners: List[Callable] = []
         self.name = name
@@ -23,7 +23,7 @@ class EventListener:
                 "Callback must be a callable (e.g., a function or a method).")
         
         # Check if the signature match 
-        if not _is_signature_match(self.signature, _get_signature(callback)):
+        if not _is_signature_match_strict(self.signature, _get_signature(callback)):
             raise Exception(
                 f"Callback : {callback.__name__} doesn't match the event listener signature."
                 f"Expecting : {self.signature}, got : {_get_signature(callback)}")
