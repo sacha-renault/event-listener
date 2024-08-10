@@ -2,15 +2,33 @@ from typing import List, Callable, Optional, Union
 import threading
 from inspect import Parameter
 
-from .event_functions import _safe_invoke
+from .event_functions import (
+    _safe_invoke, 
+    _is_signature_match, 
+    _get_signature)
 
 class EventListener:
-    def __init__(self, name: str = None, signature: Union[List[Parameter], Callable, None]= None) -> None:
+    def __init__(self, 
+                name: str = None, 
+                signature: Union[List[Parameter], Callable, None]= None) -> None:
+        
         self.__listeners: List[Callable] = []
         self.name = name
+        self.signature = signature
 
     def subscribe(self, callback : Callable) -> None:
-        assert callable(callback), "Callback must be a callable (e.g., a function or a method)."
+        # Check if object is callable
+        if not callable(callback):
+            raise Exception(
+                "Callback must be a callable (e.g., a function or a method).")
+        
+        # Check if the signature match 
+        if not _is_signature_match(self.signature, _get_signature(callback)):
+            raise Exception(
+                "Callback doesn't match the event listener signature."
+                f"Expecting : {self.signature}, got : {_get_signature(callback)}")
+        
+        # Add the callback in the listeners list
         if callback not in self.__listeners:
             self.__listeners.append(callback)
 
@@ -28,7 +46,7 @@ class EventListener:
             thread.start()
             threads.append(thread)
 
-        # Optionally, wait for all threads to complete
+        # Wait all the thread to complete
         for thread in threads:
             thread.join()
                 
