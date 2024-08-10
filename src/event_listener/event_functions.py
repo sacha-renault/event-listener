@@ -1,4 +1,5 @@
-from typing import Callable, Tuple, Any, List, get_type_hints
+""" utils functions for listener """
+from typing import Callable, Tuple, Any, List, get_origin, get_args
 import inspect
 from inspect import Parameter, _empty
 
@@ -27,25 +28,34 @@ def _is_signature_match(base_signature: List[Parameter], callback_signature: Lis
     
     # Else check for every parameter
     for base_param, callback_param in zip(base_signature, callback_signature): 
-        # Check if param are same kind
+        # Check if parameters are of the same kind
         if base_param.kind == callback_param.kind:
 
             # Check if both have a default value
             if (base_param.default is _empty) != (callback_param.default is _empty):
                 return False
 
-            # Check if params type !
-            # TODO
-            if base_param.annotation is not _empty: # and not is_same_object_or_subclass(base_param.annotation, callback_param.annotation)
-                ... # Will return false when the rest of the condition will be implemented
+            # Check if parameters type
+            if base_param.annotation is not _empty and callback_param.annotation is not _empty:
+                
+                # Get the base type for comparison
+                base_origin = get_origin(base_param.annotation) or base_param.annotation
+                callback_origin = get_origin(callback_param.annotation) or callback_param.annotation
+                
+                if base_origin != callback_origin:
+                    return False
+                
+                # Check for generic type parameters if both are generic
+                if get_args(base_param.annotation) != get_args(callback_param.annotation):
+                    return False
         else:
             return False
     return True
 
-def test_function(arg1 : int, arg2 : float, *args, papap: Callable, pipo: List = None, **kwargs):
+def test_function(arg1 : int, arg2 : float, *args, papap: Callable, pipo: Tuple = None, **kwargs):
     pass
 
-def test_function2(arg1, arg2 : float, *args, papap: Callable, pipo: List = None, **kwargs):
+def test_function2(arg1: int, arg2 : float, *args, papap: Callable, pipo: tuple = None, **kwargs):
     pass
 
 if __name__ == "__main__":
