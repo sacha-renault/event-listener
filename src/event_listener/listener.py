@@ -1,4 +1,4 @@
-from typing import List, Callable, Optional, Union
+from typing import List, Callable, Union
 import threading
 from inspect import Parameter
 
@@ -25,7 +25,7 @@ class EventListener:
         # Check if the signature match 
         if not _is_signature_match(self.signature, _get_signature(callback)):
             raise Exception(
-                "Callback doesn't match the event listener signature."
+                f"Callback : {callback.__name__} doesn't match the event listener signature."
                 f"Expecting : {self.signature}, got : {_get_signature(callback)}")
         
         # Add the callback in the listeners list
