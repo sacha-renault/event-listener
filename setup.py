@@ -11,7 +11,7 @@ def write_version_file():
 if __name__ == "__main__":
     write_version_file()
     setup(
-        name='SpectrogramUtils',
+        name='event-listener-sharp',
         use_scm_version=True,
         package_dir={'': 'src'},
         packages=find_packages(where='src'),
