@@ -2,19 +2,18 @@ from typing import List, Callable, Union
 from inspect import Parameter
 
 from ..utils.event_functions import (
-    _safe_invoke, 
-    _is_signature_match_strict, 
-    _get_signature)
-from ..exceptions.exceptions import WrongSignatureException, NotCallableException
+    _safe_invoke)
+from ..exceptions.exceptions import NotCallableException
 
 class EventListener:
     def __init__(self, 
-                name: str = None, 
-                signature: Union[List[Parameter], Callable, None] = None) -> None:
+                name: str = None) -> None:
         
+        # Init the list of __listeners
         self.__listeners: List[Callable] = []
+
+        # Init name
         self.name = name
-        self.signature = signature
 
     def subscribe(self, callback : Callable) -> None:
         """subscribe a callable to this event
@@ -32,12 +31,6 @@ class EventListener:
         if not callable(callback):
             raise NotCallableException(
                 "Callback must be a callable (e.g., a function or a method).")
-        
-        # Check if the signature match 
-        if not _is_signature_match_strict(self.signature, _get_signature(callback)):
-            raise WrongSignatureException(
-                f"Callback : {callback.__name__} doesn't match the event listener signature."
-                f"Expecting : {self.signature}, got : {_get_signature(callback)}")
         
         # Add the callback in the listeners list
         if callback not in self.__listeners:

@@ -10,3 +10,8 @@ class WrongSignatureException(EventListenerException):
 class NotCallableException(EventListenerException):
     """ Exception triggered when the object isn't a callable object. """
     pass
+
+class UnknownCaseException(EventListenerException):
+    """ The switch case arrived in an unknown state, 
+    probably something wrong was passed in argument. """
+    pass
