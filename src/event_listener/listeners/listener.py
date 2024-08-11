@@ -14,6 +14,10 @@ class EventListener:
         # Init name
         self.name = name
 
+    @property
+    def listeners(self) -> List[Callable]:
+        return self.__listeners
+
     def subscribe(self, callback : Callable) -> None:
         """subscribe a callable to this event
 
@@ -32,8 +36,8 @@ class EventListener:
                 "Callback must be a callable (e.g., a function or a method).")
         
         # Add the callback in the listeners list
-        if callback not in self.__listeners:
-            self.__listeners.append(callback)
+        if callback not in self.listeners:
+            self.listeners.append(callback)
 
     def subscribe_many(self, *callbacks: Callable) -> None:
         """
@@ -55,8 +59,8 @@ class EventListener:
             callback (Callable): the callable that should be cleared from the 
             list of listeners.
         """
-        if callback in self.__listeners: 
-            self.__listeners.remove(callback)
+        if callback in self.listeners: 
+            self.listeners.remove(callback)
 
     def unsubscribe_many(self, *callbacks: Callable) -> None:
         """
@@ -73,7 +77,7 @@ class EventListener:
     def clear(self) -> None:
         """Clear all callback from the listeners list.
         """
-        self.__listeners.clear()
+        self.listeners.clear()
 
     def invoke(self, *args, **kwargs) -> None:
         """
@@ -90,6 +94,6 @@ class EventListener:
         - Each listener is executed sequentially in the current thread.
         - The method does not return until all listeners have been executed.
         """
-        for listener in self.__listeners:
+        for listener in self.listeners:
             _safe_invoke(listener, *args, **kwargs)
                 

@@ -22,7 +22,7 @@ class EventListenerAsync(EventListener):
             listeners have finished their execution.
         """
         threads: List[threading.Thread] = []
-        for listener in self.__listeners:
+        for listener in self.listeners:
             thread = threading.Thread(target=_safe_invoke, args=(listener,) + args, kwargs=kwargs)
             thread.start()
             threads.append(thread)
