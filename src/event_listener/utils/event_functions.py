@@ -1,7 +1,8 @@
 """ utils functions for listener """
-from typing import Callable, Tuple, Any, List, get_origin, get_args
+import warnings
+from typing import Callable, List
 import inspect
-from inspect import Parameter, _empty
+from inspect import Parameter
 
 def _safe_invoke(listener: Callable, *args, **kwargs) -> None:
     """
@@ -26,7 +27,7 @@ def _safe_invoke(listener: Callable, *args, **kwargs) -> None:
     try:
         listener(*args, **kwargs)
     except Exception as e:
-        print(f"Exception occurred during listener callback: {e}")
+        warnings.warn(f"Exception occurred during listener callback ({listener.__name__}): {e}")
 
 def _get_signature(func: Callable) -> List[Parameter]:
     """
