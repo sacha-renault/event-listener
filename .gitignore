@@ -1,3 +1,9 @@
 __pycache__
 test.py
 .coverage
+*.ipynb
+_version.py
+*.egg-info
+build
+dist
+*.log
