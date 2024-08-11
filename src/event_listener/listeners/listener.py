@@ -1,5 +1,13 @@
-""" Module that contain the definition of the `EventListener`
-class. """
+"""
+This module contains the definition of the `EventListener` class, which provides
+an event-driven mechanism for subscribing, unsubscribing, and invoking listeners
+(or callbacks). The `EventListener` class is designed to manage a list of callable
+functions or methods that can be triggered with specified arguments.
+
+The class is particularly useful in scenarios where an event-driven architecture is
+needed, such as in GUI applications, asynchronous programming, or handling custom
+events in an application.
+"""
 
 from typing import List, Callable
 
@@ -10,7 +18,13 @@ from ..exceptions.exceptions import NotCallableException
 class EventListener:
     def __init__(self, 
                 name: str = None) -> None:
-        
+        """
+        Initializes the `EventListener` instance.
+
+        Args:
+            name (str, optional): The name of the event listener. This is useful
+            for identifying the event listener in more complex applications..
+        """
         # Init the list of __listeners
         self.__listeners: List[Callable] = []
 
@@ -19,6 +33,8 @@ class EventListener:
 
     @property
     def listeners(self) -> List[Callable]:
+        """get the list off all the listeners subscribed to this event.
+        """
         return self.__listeners
 
     def subscribe(self, callback : Callable) -> None:

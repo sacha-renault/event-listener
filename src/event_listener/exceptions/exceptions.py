@@ -1,3 +1,7 @@
+""" 
+This module store the exception used in the package
+"""
+
 class EventListenerException(Exception):
     """ Base library exception """
     pass
