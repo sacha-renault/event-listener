@@ -1,5 +1,4 @@
-from typing import List, Callable, Union
-from inspect import Parameter
+from typing import List, Callable
 
 from ..utils.event_functions import (
     _safe_invoke)
