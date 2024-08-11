@@ -1,3 +1,7 @@
+""" Module that contain the definition of the `EventListenerAsync`
+class. It has same logic as the parent class `EventListener` but 
+add asynchronous call of invoke. """
+
 from typing import List
 import threading
 from ..utils.event_functions import _safe_invoke

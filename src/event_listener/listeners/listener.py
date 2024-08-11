@@ -1,3 +1,6 @@
+""" Module that contain the definition of the `EventListener`
+class. """
+
 from typing import List, Callable
 
 from ..utils.event_functions import (
